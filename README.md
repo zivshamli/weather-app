@@ -31,8 +31,8 @@ A simple weather application that displays the weather based on the city name, u
 ### 🎤 Voice Search Button
 You can recognize the voice search button by this icon:
 
-<img src="path/to/microphone.png" alt="Microphone" width="48" />
-
+![Voice Search Button](<img src="images/microphone.png" alt="Voice Search Button" width="48" height="48" />
+)
 
 
 
