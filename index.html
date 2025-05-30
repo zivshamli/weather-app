@@ -13,6 +13,10 @@
         <input type="text" placeholder="Enter city name" spellcheck="false"
         >
         <button><img src="images/search.png" ></button>
+        <button class="mic-btn" id="voice-search">
+        <img src="images/microphone.png" alt="Voice Search">
+     </button>
+
     </div>
 
     <div class="error">
@@ -57,6 +61,39 @@
     const searchBox= document.querySelector(".search input");
     const searchBtn= document.querySelector(".search button");
     const weather_icon= document.querySelector(".weather-icon");
+    const voiceBtn = document.querySelector(".search .mic-btn");
+
+    // Speech Recognition setup
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US"; // or "he-IL" for Hebrew
+
+    voiceBtn.addEventListener("click", () => {
+        recognition.start();
+    });
+
+    recognition.onstart = () => {
+        console.log("Listening...");
+    };
+
+    recognition.onresult = (event) => {
+        let transcript = event.results[0][0].transcript.trim();
+        transcript = transcript.replace(/[.,!?;:]$/, '');
+        console.log("Transcript:", transcript);
+
+        searchBox.value = transcript;
+        checkWeather(transcript);
+    };
+
+    recognition.onerror = (event) => {
+        console.error("Voice recognition error:", event.error);
+        alert("Voice recognition failed. Please try again.");
+    };
+} else {
+    alert("Your browser does not support voice recognition.");
+}
 
     async function checkWeather(city) {
         const response= await fetch(apiUrl+city +`&appid=${apiKey}`);
